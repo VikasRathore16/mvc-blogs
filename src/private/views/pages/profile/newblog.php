@@ -1,6 +1,5 @@
 <?php
-
-
+print_r($data);
 
 ?>
 
@@ -8,7 +7,7 @@
 <html lang="en">
 
 <head>
-    <title>Dashboard</title>
+    <title>New Blog</title>
     <meta charset="utf-8" />
     <meta content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" name="viewport" />
     <meta name="viewport" content="width=device-width" />
@@ -60,16 +59,16 @@
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
-                        <li class="nav-item bg-info">
+                        <li class="nav-item">
                             <a class="nav-link" href="http://localhost:8080/public/pages/checkUser">
                                 <span data-feather="file"></span>
-                                BLOGS
+                                My Blogs
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="http://localhost:8080/public/pages/users">
+                        <li class="nav-item  bg-info">
+                            <a class="nav-link" href="http://localhost:8080/public/pages/profile">
                                 <span data-feather="shopping-cart"></span>
-                                USERS
+                                New Blog
                             </a>
                         </li>
                     </ul>
@@ -93,64 +92,24 @@
 
                 <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
 
-                <h2>BLOGS</h2>
+                <h2>New Blog</h2>
 
-                <div class="table-responsive">
-                    <table class="table table-striped table-sm">
-                        <thead>
-                            <tr>
-                                <th scope="col">Blog Id</th>
-                                <th scope="col">User Id</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Article</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Trending</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($data['posts'] as $key => $v) {
-                                echo "<tr>
-                                <td>$v->blog_id</td>
-                                <td>$v->post_user_id</td>
-                                <td style='width:30%''>$v->description</td>
-                                <td><form action='viewPost' method='post'>
-                                <input type='hidden' name='blog_id' value='$v->blog_id' />
-                                <button class='btn bg-success text-light' type='submit' id='view' data-blog_id=$v->blog_id data-user_id=$v->post_user_id>View</button>
-                                </form>
-                                </td>
-                                <td>$v->status</td>
-                                <td>";
-                                if ($v->trending == 'No') {
-                                    $flag = "Yes";
-                                } else {
-                                    $flag = 'No';
-                                }
-                                echo  "<select name='trending' id='trending' data-blog_id=$v->blog_id>
-                                    <option value='$v->trending'>$v->trending</option>
-                                    <option value='$flag'>$flag</option>
-                                </select>
-                                </td>
-                                <td>$v->date</td>
-                                <td>";
-                                if($v->status == "Pending"){
-                                echo "<button class='btn bg-primary text-light' id='published' data-blog_id=$v->blog_id data-user_id=$v->post_user_id>Published</button>
-                                ";}
-                                else{
-                                    echo "<button class='btn bg-danger text-light' id='pending' data-blog_id=$v->blog_id data-user_id=$v->post_user_id>Hide</button>
-                                    ";
-                                }
-                                echo "<button class='btn bg-danger text-light' id='delete' data-blog_id=$v->blog_id data-user_id=$v->post_user_id>Delete</button></td>
-                            </tr>
-                                ";
-                            }
-                            ?>
+                <hr>
+                <form method="post" action="addPost">
+                    
+                    <div class="mb-3 mt-3">
+                        <label for="email" class="form-label">Title:</label>
+                        <input type="text" class="form-control" id="title" placeholder="Enter Title of Blog" name="title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="pwd" class="form-label">Description:</label>
+                        <input type="text" class="form-control" id="description" placeholder="Enter description" name="description">
+                    </div>
 
-                        </tbody>
-                    </table>
-
-                </div>
+                    <label for="comment">Article:</label>
+                    <textarea class="form-control" rows="5" id="article" name="arctile"></textarea>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
             </main>
         </div>
     </div>

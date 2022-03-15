@@ -20,7 +20,7 @@ class Pages extends Controller
             'posts' => $posts
         ];
         $this->view('blogs/header');
-        $this->view('blogs/main',$data);
+        $this->view('blogs/main', $data);
         $this->view('blogs/footer');
     }
 
@@ -43,6 +43,17 @@ class Pages extends Controller
             $this->view('pages/admin/dashboard', $data);
             die();
         }
+        if (isset($_SESSION['user'])) {
+            print_r((($_SESSION['user'][0])));
+            die();
+            $posts = $this->model('Posts')::find('all');
+            $data = [
+                'posts' => $posts
+            ];
+            $_SESSION['admin'] = 'admin';
+            $this->view('pages/admin/dashboard', $data);
+            die();
+        }
 
         if (isset($_POST['submit'])) {
             $email = isset($_POST['email']) ? $_POST['email'] : '';
@@ -50,7 +61,15 @@ class Pages extends Controller
 
             $check = $this->check($email, $password);
             if ($check[0]->role == 'Editor') {
-                header('location: profile.php');
+                $_SESSION['user'] = $check;
+                $user = $this->model('Users')::all(array('conditions' => array('email = ? AND password = ?', $email, $password)));
+                $posts = $this->model('Posts')::all(array('conditions' => array('post_user_id = ?', $user[0]->user_id)));
+                $data = [
+                    'users' => $user,
+                    'posts' => $posts
+                ];
+                $this->view('pages/profile/profile', $data);
+                die();
             }
             if ($check[0]->role  == 'Admin') {
                 $posts = $this->model('Posts')::find('all');
@@ -228,5 +247,15 @@ class Pages extends Controller
 
         $user->update_attributes(array('status' => 'Restrict'));
         $user->save();
+    }
+
+    public function profile()
+    {
+        $this->view('pages/profile/newblog');
+    }
+
+    public function addPost()
+    {
+        
     }
 }

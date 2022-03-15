@@ -1,6 +1,5 @@
 <?php
-
-
+// print_r($data);
 
 ?>
 
@@ -61,15 +60,15 @@
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item bg-info">
-                            <a class="nav-link" href="http://localhost:8080/public/pages/checkUser">
+                            <a class="nav-link" href="http://localhost:8080/public/pages/checkUser>
                                 <span data-feather="file"></span>
-                                BLOGS
+                                My Blogs
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="http://localhost:8080/public/pages/users">
+                            <a class="nav-link" href="http://localhost:8080/public/pages/profile">
                                 <span data-feather="shopping-cart"></span>
-                                USERS
+                                New Blog
                             </a>
                         </li>
                     </ul>
@@ -121,27 +120,10 @@
                                 </form>
                                 </td>
                                 <td>$v->status</td>
-                                <td>";
-                                if ($v->trending == 'No') {
-                                    $flag = "Yes";
-                                } else {
-                                    $flag = 'No';
-                                }
-                                echo  "<select name='trending' id='trending' data-blog_id=$v->blog_id>
-                                    <option value='$v->trending'>$v->trending</option>
-                                    <option value='$flag'>$flag</option>
-                                </select>
+                                <td>$v->trending
                                 </td>
                                 <td>$v->date</td>
-                                <td>";
-                                if($v->status == "Pending"){
-                                echo "<button class='btn bg-primary text-light' id='published' data-blog_id=$v->blog_id data-user_id=$v->post_user_id>Published</button>
-                                ";}
-                                else{
-                                    echo "<button class='btn bg-danger text-light' id='pending' data-blog_id=$v->blog_id data-user_id=$v->post_user_id>Hide</button>
-                                    ";
-                                }
-                                echo "<button class='btn bg-danger text-light' id='delete' data-blog_id=$v->blog_id data-user_id=$v->post_user_id>Delete</button></td>
+                                <td><button class='btn bg-danger text-light' id='delete' data-blog_id=$v->blog_id data-user_id=$v->post_user_id>Delete</button></td>
                             </tr>
                                 ";
                             }
