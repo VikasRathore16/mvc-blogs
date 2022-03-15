@@ -15,8 +15,12 @@ class Pages extends Controller
 
     public function index()
     {
+        $posts = $this->model('Posts')::find('all');
+        $data = [
+            'posts' => $posts
+        ];
         $this->view('blogs/header');
-        $this->view('blogs/main');
+        $this->view('blogs/main',$data);
         $this->view('blogs/footer');
     }
 
@@ -135,17 +139,94 @@ class Pages extends Controller
 
 
 
+
     public function signout()
     {
-
-
-        $this->view('pages/signout');
+        $this->view('pages/signout/signout');
     }
 
 
 
-    public function register()
+    public function publish()
     {
-        $this->view('pages/listUser');
+        print_r($_POST['blog_id']);
+        $blog_id = $_POST['blog_id'];
+        echo "helo";
+        // $publish = $this->model('posts')::all();
+        $post = $this->model('Posts')::find($blog_id);
+        $post->status = 'Published';
+        $post->save();
+    }
+    public function pending()
+    {
+        print_r($_POST['blog_id']);
+        $blog_id = $_POST['blog_id'];
+        echo "helo";
+        // $publish = $this->model('posts')::all();
+        $post = $this->model('Posts')::find($blog_id);
+        $post->status = 'Pending';
+        $post->save();
+    }
+    public function deletePost()
+    {
+        print_r($_POST['blog_id']);
+        $blog_id = $_POST['blog_id'];
+        echo "helo";
+        $post = $this->model('Posts')::find($blog_id);
+        $post->delete();
+    }
+
+    public function trendingPost()
+    {
+        print_r($_POST['blog_id']);
+        $blog_id = $_POST['blog_id'];
+        $val = $_POST['val'];
+        echo $val;
+        echo "helo";
+        $post = $this->model('Posts')::find($blog_id);
+        $post->update_attributes(array('trending' => $val));
+    }
+
+    public function viewPost()
+    {
+        $blog_id = $_POST['blog_id'];
+        print_r($blog_id);
+
+        $article = $this->model('Posts')::find($blog_id);
+        $data = [
+            'article' => $article
+        ];
+        $this->view('pages/admin/article', $data);
+        // echo json_encode($post);
+    }
+
+    public function deleteUser()
+    {
+
+        $user_id = $_POST['user_id'];
+
+        $user = $this->model('Users')::find($user_id);
+        $user->delete();
+    }
+    public function approveUser()
+    {
+
+        $user_id = $_POST['user_id'];
+
+        $user = $this->model('Users')::find($user_id);
+
+        $user->update_attributes(array('status' => 'Approved'));
+        $user->save();
+    }
+
+    public function restrictUser()
+    {
+
+        $user_id = $_POST['user_id'];
+
+        $user = $this->model('Users')::find($user_id);
+
+        $user->update_attributes(array('status' => 'Restrict'));
+        $user->save();
     }
 }

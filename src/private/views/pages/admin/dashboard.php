@@ -50,7 +50,7 @@
         <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
         <div class="navbar-nav">
             <div class="nav-item text-nowrap">
-                <a class="nav-link px-3" href="Signout.php">Sign out</a>
+                <a class="nav-link px-3" href="http://localhost:8080/public/pages/signout">Sign out</a>
             </div>
         </div>
     </header>
@@ -94,52 +94,62 @@
                 <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
 
                 <h2>BLOGS</h2>
-                <div class="table-responsive">
 
-                    <div class="table-responsive">
-                        <table class="table table-striped table-sm">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Blog Id</th>
-                                    <th scope="col">User Id</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Article</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Trending</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($data['posts'] as $key => $v) {
-                                    echo "<tr>
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th scope="col">Blog Id</th>
+                                <th scope="col">User Id</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Article</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Trending</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($data['posts'] as $key => $v) {
+                                echo "<tr>
                                 <td>$v->blog_id</td>
                                 <td>$v->post_user_id</td>
                                 <td style='width:30%''>$v->description</td>
-                                <td><button class='btn bg-danger text-light' id='view' data-blogId=$v->blog_id data-userId=$v->post_user_id>View</button></td>
+                                <td><form action='viewPost' method='post'>
+                                <input type='hidden' name='blog_id' value='$v->blog_id' />
+                                <button class='btn bg-success text-light' type='submit' id='view' data-blog_id=$v->blog_id data-user_id=$v->post_user_id>View</button>
+                                </form>
+                                </td>
                                 <td>$v->status</td>
                                 <td>";
-                                    if ($v->trending == 'No') {
-                                        $flag = "Yes";
-                                    } else {
-                                        $flag = 'No';
-                                    }
-                                    echo  "<select name='cars' id='cars'>
-                                    <option value='volvo'>$v->trending</option>
-                                    <option value='saab'>$flag</option>
+                                if ($v->trending == 'No') {
+                                    $flag = "Yes";
+                                } else {
+                                    $flag = 'No';
+                                }
+                                echo  "<select name='trending' id='trending' data-blog_id=$v->blog_id>
+                                    <option value='$v->trending'>$v->trending</option>
+                                    <option value='$flag'>$flag</option>
                                 </select>
                                 </td>
                                 <td>$v->date</td>
-                                <td><button class='btn bg-danger text-light' id='published' data-blogId=$v->blog_id data-userId=$v->post_user_id>Published</button>
-                                <button class='btn bg-danger text-light' id='delete' data-blogId=$v->blog_id data-userId=$v->post_user_id>Delete</button></td>
+                                <td>";
+                                if($v->status == "Pending"){
+                                echo "<button class='btn bg-primary text-light' id='published' data-blog_id=$v->blog_id data-user_id=$v->post_user_id>Published</button>
+                                ";}
+                                else{
+                                    echo "<button class='btn bg-danger text-light' id='pending' data-blog_id=$v->blog_id data-user_id=$v->post_user_id>Hide</button>
+                                    ";
+                                }
+                                echo "<button class='btn bg-danger text-light' id='delete' data-blog_id=$v->blog_id data-user_id=$v->post_user_id>Delete</button></td>
                             </tr>
                                 ";
-                                }
-                                ?>
-                               
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                            ?>
+
+                        </tbody>
+                    </table>
+
                 </div>
             </main>
         </div>
@@ -153,11 +163,8 @@
         </div>
     </footer>
 
-    <script src="/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
-    <script src="../js/dashboard.js"></script>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="../../../../public/assets/js/posts.js" rel="text/javascript"></script>
 
 </html>
