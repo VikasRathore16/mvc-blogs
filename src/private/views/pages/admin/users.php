@@ -124,7 +124,6 @@
                                <td>$v->status</td>
                                <td>$v->role</td>";
                                     if ($v->status == 'Approved') {
-
                                         echo " <td><button class='btn bg-danger text-light' id='restrict' data-user_id=$v->user_id>Restrict</button>";
                                     } else {
                                         echo  " <td><button class='btn bg-primary text-light' id='approve' data-user_id=$v->user_id>Approve</button>";
