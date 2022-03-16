@@ -18,7 +18,8 @@
             <?php
 
             foreach ($data['posts'] as $key => $value) {
-                echo "<div class='row mb-2'>
+                if ($value->status == 'Published') {
+                    echo "<div class='row mb-2'>
                    <div class='col'> 
                    <div class='row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative'>
                            <div class='col p-4 d-flex flex-column position-static'>
@@ -26,8 +27,12 @@
                                <h3 class='mb-0'>$value->title</h3>
                                <div class='mb-1 text-muted'>$value->date</div>
                                <p class='card-text mb-auto'>$value->description</p>
-                               <a href='#' class='stretched-link'>Continue reading</a>
-                           </div>
+                               <form method='post' action='http://localhost:8080/pages/fullArticle' >
+                                <input type='hidden' name='blog_id' value='$value->blog_id' />
+                                <input type='hidden' name='user_id' value='$value->post_user_id' />
+                               <input type='submit' class='stretched-link border-0' name='continue' value='Continue Reading ...'></input>
+                               </form >     
+                               </div>
                            <div class='col-auto d-none d-lg-block'>
                                <svg class='bd-placeholder-img' width='200' height='250' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Placeholder: Thumbnail' preserveAspectRatio='xMidYMid slice' focusable='false'>
                                    <title>Placeholder</title>
@@ -37,6 +42,7 @@
                        </div>
                    </div>
                </div>";
+                }
             }
             ?>
 

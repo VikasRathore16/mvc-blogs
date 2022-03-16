@@ -43,17 +43,17 @@ class Pages extends Controller
             $this->view('pages/admin/dashboard', $data);
             die();
         }
-        if (isset($_SESSION['user'])) {
-            print_r((($_SESSION['user'][0])));
-            die();
-            $posts = $this->model('Posts')::find('all');
-            $data = [
-                'posts' => $posts
-            ];
-            $_SESSION['admin'] = 'admin';
-            $this->view('pages/admin/dashboard', $data);
-            die();
-        }
+        // if (isset($_SESSION['user'])) {
+        //     print_r((($_SESSION['user'][0])));
+        //     die();
+        //     $posts = $this->model('Posts')::find('all');
+        //     $data = [
+        //         'posts' => $posts
+        //     ];
+        //     $_SESSION['admin'] = 'admin';
+        //     $this->view('pages/admin/dashboard', $data);
+        //     die();
+        // }
 
         if (isset($_POST['submit'])) {
             $email = isset($_POST['email']) ? $_POST['email'] : '';
@@ -61,13 +61,14 @@ class Pages extends Controller
 
             $check = $this->check($email, $password);
             if ($check[0]->role == 'Editor') {
-                $_SESSION['user'] = $check;
+
                 $user = $this->model('Users')::all(array('conditions' => array('email = ? AND password = ?', $email, $password)));
                 $posts = $this->model('Posts')::all(array('conditions' => array('post_user_id = ?', $user[0]->user_id)));
                 $data = [
                     'users' => $user,
                     'posts' => $posts
                 ];
+                $_SESSION['user'] = $user[0]->user_id;
                 $this->view('pages/profile/profile', $data);
                 die();
             }
@@ -85,6 +86,50 @@ class Pages extends Controller
                 ];
                 $this->view('pages/login/login', $data);
             }
+        }
+    }
+
+    public function profile()
+    {
+        // $data=[
+        //     'user' => $user
+        // ];
+        $user_id = $_SESSION['user'];
+        $user = $this->model('Users')::find($user_id);
+        $posts = $this->model('Posts')::all(array('conditions' => array('post_user_id = ?', $user_id)));
+        $data = [
+            'users' => $user,
+            'posts' => $posts
+        ];
+        $this->view('pages/profile/profile', $data);
+    }
+
+    public function newblog()
+    {
+        // $data=[
+        //     'user' => $user
+        // ];
+        $user_id = $_SESSION['user'];
+        $user = $this->model('Users')::find($user_id);
+        $posts = $this->model('Posts')::all(array('conditions' => array('post_user_id = ?', $user_id)));
+        $data = [
+            'users' => $user,
+            'posts' => $posts
+        ];
+        $this->view('pages/profile/newblog', $data);
+    }
+
+    public function addPost()
+    {
+        print_r($_POST);
+        if (isset($_POST['submit'])) {
+            $posts = $this->model('Posts');
+            $posts->title = $_POST['title'];
+            $posts->description = $_POST['description'];
+            $posts->article = $_POST['article'];
+            $posts->post_user_id = $_POST['user_id'];
+            $posts->save();
+            print_r($_POST);
         }
     }
 
@@ -209,13 +254,59 @@ class Pages extends Controller
     public function viewPost()
     {
         $blog_id = $_POST['blog_id'];
-        print_r($blog_id);
+        // print_r($blog_id);
 
         $article = $this->model('Posts')::find($blog_id);
         $data = [
             'article' => $article
         ];
         $this->view('pages/admin/article', $data);
+        // echo json_encode($post);
+    }
+    public function fullArticle()
+    {
+        if (isset($_POST['blog_id'])) {
+            $blog_id = $_POST['blog_id'];
+            $user_id = $_POST['user_id'];
+            $article = $this->model('Posts')::find($blog_id);
+            $user = $this->model('Users')::find($user_id);
+            
+            $data = [
+                'article' => $article,
+                'User' => $user
+            ];
+            $this->view('blogs/header');
+            $this->view('blogs/fullarticle', $data);
+            $this->view('blogs/footer');
+        }
+        // print_r($blog_id);
+
+
+        // $this->view('pages/admin/article', $data);
+        // // echo json_encode($post);
+    }
+
+    public function updatePost()
+    {
+
+
+        if (isset($_POST['submit'])) {
+            $blog_id = $_POST['blog_id'];
+            print_r($_POST);
+            $article = $this->model('Posts')::find($blog_id);
+            $article->title = $_POST['title'];
+            $article->description = $_POST['description'];
+            $article->article = $_POST['article'];
+            $article->save();
+            if (isset($_SESSION['admin'])) {
+
+                header('Location: http://localhost:8080/public/pages/checkUser');
+            }
+            if (isset($_SESSION['user'])) {
+                header('Location: http://localhost:8080/public/pages/profile');
+            }
+        }
+
         // echo json_encode($post);
     }
 
@@ -247,15 +338,5 @@ class Pages extends Controller
 
         $user->update_attributes(array('status' => 'Restrict'));
         $user->save();
-    }
-
-    public function profile()
-    {
-        $this->view('pages/profile/newblog');
-    }
-
-    public function addPost()
-    {
-        
     }
 }

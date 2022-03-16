@@ -57,7 +57,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block bg-light sidebar collapse">
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item bg-info">
@@ -101,6 +101,7 @@
                             <tr>
                                 <th scope="col">Blog Id</th>
                                 <th scope="col">User Id</th>
+                                <th scope="col">Title</th>
                                 <th scope="col">Description</th>
                                 <th scope="col">Article</th>
                                 <th scope="col">Status</th>
@@ -114,6 +115,7 @@
                                 echo "<tr>
                                 <td>$v->blog_id</td>
                                 <td>$v->post_user_id</td>
+                                <td>$v->title</td>
                                 <td style='width:30%''>$v->description</td>
                                 <td><form action='viewPost' method='post'>
                                 <input type='hidden' name='blog_id' value='$v->blog_id' />

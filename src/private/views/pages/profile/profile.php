@@ -1,6 +1,6 @@
 <?php
 // print_r($data);
-
+// print_r($_SESSION['user']);
 ?>
 
 <!doctype html>
@@ -60,13 +60,13 @@
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item bg-info">
-                            <a class="nav-link" href="http://localhost:8080/public/pages/checkUser>
+                            <a class="nav-link" href="http://localhost:8080/public/pages/profile>
                                 <span data-feather="file"></span>
                                 My Blogs
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="http://localhost:8080/public/pages/profile">
+                            <a class="nav-link" href="http://localhost:8080/public/pages/newblog">
                                 <span data-feather="shopping-cart"></span>
                                 New Blog
                             </a>

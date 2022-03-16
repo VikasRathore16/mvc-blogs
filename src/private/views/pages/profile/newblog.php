@@ -1,5 +1,13 @@
 <?php
-print_r($data);
+// // print_r($_SESSION['user']);
+// foreach ($_SESSION['user'] as $group) {
+//     // $arr_items[] = $group->to_array();
+//     print_r($group);
+// }
+// // echo (json_encode($arr_items));
+
+// print_r($_SESSION['user']);
+// print_r($data);
 
 ?>
 
@@ -60,13 +68,13 @@ print_r($data);
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="http://localhost:8080/public/pages/checkUser">
+                            <a class="nav-link" href="http://localhost:8080/public/pages/profile">
                                 <span data-feather="file"></span>
                                 My Blogs
                             </a>
                         </li>
                         <li class="nav-item  bg-info">
-                            <a class="nav-link" href="http://localhost:8080/public/pages/profile">
+                            <a class="nav-link" href="http://localhost:8080/public/pages/newblog">
                                 <span data-feather="shopping-cart"></span>
                                 New Blog
                             </a>
@@ -96,7 +104,7 @@ print_r($data);
 
                 <hr>
                 <form method="post" action="addPost">
-                    
+                    <input type="hidden" class="form-control" id="user_id" name="user_id" value="<?php echo $_SESSION['user']?>">
                     <div class="mb-3 mt-3">
                         <label for="email" class="form-label">Title:</label>
                         <input type="text" class="form-control" id="title" placeholder="Enter Title of Blog" name="title">
@@ -107,8 +115,8 @@ print_r($data);
                     </div>
 
                     <label for="comment">Article:</label>
-                    <textarea class="form-control" rows="5" id="article" name="arctile"></textarea>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <textarea class="form-control" rows="5" id="article" name="article"></textarea>
+                    <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
                 </form>
             </main>
         </div>
